@@ -1,0 +1,101 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6rem;
+  min-height: 100vh;
+  /* background-color: #282828; */
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rowTransferCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.marginRight {
+  margin-right: 10px;
+}
+
+.mainColumnTransferInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.textHeaderTable {
+  /* padding-bottom: 20px; */
+  /* display: flex;
+  flex-direction: row;
+  justify-content: space-between; */
+}
+.tbodyRow {
+  overflow-y: auto;
+  height: 310px !important;
+}
+
+.tbodyRow::-webkit-scrollbar {
+  width: 12px;  
+}
+
+.tbodyRow::-webkit-scrollbar-thumb {
+  background-color: #303030;    
+  border-radius: 20px;       
+  border: 3px solid orange; 
+}
+
+.mainRowTbody {
+  border: 2px solid #999;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+.simpleTextClip {
+  white-space: nowrap;
+  width: 170px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.textTableClip {
+  white-space: nowrap;
+  width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.textTable {
+  width: 150px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.pubCode {
+  white-space: nowrap;
+  width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.singleBoxBody {
+  border: 2px solid #999;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  width: 200px;
+  overflow: hidden;
+}
+.transferButton {
+  display: flex;
+  justify-content: end;
+}
