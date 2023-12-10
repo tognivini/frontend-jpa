@@ -18,7 +18,7 @@
 .rowTransferCard {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -77,6 +77,14 @@
 .textTableClip {
   white-space: nowrap;
   width: 145px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: left;
+}
+
+.textClipOption2 {
+  white-space: nowrap;
+  width: 135px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: left;

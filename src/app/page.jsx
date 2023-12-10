@@ -2,9 +2,8 @@
 
 import React, { useState, useCallback, useEffect } from "react";
 
-import Image from 'next/image'
 import styles from './page.module.css'
-import { Cards } from './components/cards/cards'
+import { Cards } from './components/Cards/Cards'
 import { Button } from './components/Button'
 import { Badge } from './components/Badge'
 import { onGetAllUsers, onGetAllPilas, onGetAllBlocks, onSendPilaTransferation  } from './services/api-services/repositories';
@@ -23,35 +22,25 @@ export default function Home() {
     onGetPilas()
   }, []);
 
-  const onGetUsers = useEffect(()=> {
-    onGetAllUsers().then((res) => {
-      if(res?.result?.length > 0){
-        setUsers(res?.result);
-        console.log(res, 'user')
-      }
-    });
-  }, [pilas])  
-
   const onGetPilas = useCallback(async () => {
     await onGetAllPilas().then((res) => {
       if(res?.result?.length > 0){
-        console.log(res, 'pilas')
-        // const wave = []
-        // res?.result.forEach((r, index)=> {
-        //   if(index < 10){
-        //     wave.push(r)
-        //   }
-        // })
-        // setPilas(wave)
         setPilas(res?.result)
       }
     });
   }, []);
 
+  const onGetUsers = useEffect(()=> {
+    onGetAllUsers().then((res) => {
+      if(res?.result?.length > 0){
+        setUsers(res?.result);
+      }
+    });
+  }, [pilas])  
+
   const onGetBlocks = useEffect(() => {
     onGetAllBlocks().then((res) => {
       if(res?.result?.length > 0){
-        console.log('bloco', res)
         setBlocos(res?.result);
       }
     });
@@ -461,7 +450,7 @@ export default function Home() {
                                 <div key={key} className={styleCard}>
                                   <tr>
                                     <td>
-                                      <div className={styles.textTableClip}>
+                                      <div className={styles.textClipOption2}>
                                         {nome}
                                       </div>
                                     </td>
