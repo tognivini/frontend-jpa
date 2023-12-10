@@ -1,13 +1,6 @@
 import { api } from "../../axios/index"
 import { routes } from "../types/endpoints"
 
-interface IUserInterface {
-    name: string;
-    email: string;
-    phoneNumber: string;
-    password?: string;
-  }
-  
 async function onGetAllUsers() {
     try {
       return (await api.get(routes.LIST_USERS)).data;

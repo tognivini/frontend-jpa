@@ -20,8 +20,9 @@ export default function Home() {
   
   useEffect(() => {
     onGetPilas()
+    onGetUsers()
+    onGetBlocks()
   }, []);
-
   const onGetPilas = useCallback(async () => {
     await onGetAllPilas().then((res) => {
       if(res?.result?.length > 0){
@@ -30,21 +31,21 @@ export default function Home() {
     });
   }, []);
 
-  const onGetUsers = useEffect(()=> {
-    onGetAllUsers().then((res) => {
+  const onGetUsers = useCallback(async()=> {
+    await onGetAllUsers().then((res) => {
       if(res?.result?.length > 0){
         setUsers(res?.result);
       }
     });
-  }, [pilas])  
+  }, [])  
 
-  const onGetBlocks = useEffect(() => {
-    onGetAllBlocks().then((res) => {
+  const onGetBlocks = useCallback(async() => {
+    await onGetAllBlocks().then((res) => {
       if(res?.result?.length > 0){
         setBlocos(res?.result);
       }
     });
-  }, [pilas]);
+  }, []);
 
 
   const sendPilaTransferation = useCallback(async () => {
@@ -65,8 +66,10 @@ export default function Home() {
               text: "Transferencia realizada com sucesso!",
               icon: "success",
               confirmButtonText: "Ok",
-            }).then(() => {
-              onGetPilas()();
+            }).then(async() => {
+              await onGetPilas();
+              await onGetUsers();
+              await onGetBlocks();
             });
           } else {
             Swal.fire({
@@ -80,7 +83,7 @@ export default function Home() {
           setTransferPila({})
         });
       }
-  }, [onGetPilas, transferPila.noncePila, transferUser.chaveUsuarioDestino, transferUser.nomeUsuarioDestino]);
+  }, [onGetBlocks, onGetPilas, onGetUsers, transferPila.noncePila, transferUser.chaveUsuarioDestino, transferUser.nomeUsuarioDestino]);
 
 
   return (
@@ -106,7 +109,7 @@ export default function Home() {
                     {pilas ? (
                       pilas?.map(({ id, chaveCriador, dataCriacao, nonce, nomeCriador, status, transacoes }, key) =>  {
                         const dd = new Date(dataCriacao);
-                        const formattedTime = format(dd, "yyyy-MM-dd");
+                        const formattedTime = format(dd, "dd/MM/yyyy");
                         return(
                         <div key={key} className={styles.mainRowTbody}>
                             <tr>
@@ -329,10 +332,9 @@ export default function Home() {
                         {pilas ? (
                           pilas?.map(({ id, chaveCriador, dataCriacao, nonce, nomeCriador, status, transacoes }, key) =>  {
                             const dd = new Date(dataCriacao);
-                            const formattedTime = format(dd, "yyyy-MM-dd");
+                            const formattedTime = format(dd, "dd/MM/yyyy");
                             const styleCard = transferPila?.noncePila === nonce ? styles.mainRowTbodySelected : styles.mainRowTbody
                             if(status === 'VALIDO'){
-                              
                               return(
                                 <div key={key} className={styleCard}>
                                   <tr>
@@ -466,7 +468,7 @@ export default function Home() {
                                             setTransferUser({ chaveUsuarioDestino: chavePublica, nomeUsuarioDestino: nome })
                                           }
                                         }}
-                                        style={{ height: 30, fontSize: 12, width: 'auto', border: '1px solid grey' }}
+                                        style={{ height: 30, fontSize: 14, width: 90, border: '1px solid grey' }}
                                         >
                                           Selecionar
                                       </Button>

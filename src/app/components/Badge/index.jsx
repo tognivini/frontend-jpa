@@ -7,13 +7,13 @@ const Badge = ({ children, ...props }) => {
   let statusColor = ''
   switch(props?.statusBadge){
     case 'VALIDO':
-      statusColor = 'green'
+      statusColor = '#138D75'
       break;
     case 'AG_VALIDACAO':
-      statusColor = 'blue'
+      statusColor = '#3498DB'
       break;
     case 'BLOCO_EM_VALIDACAO':
-      statusColor = 'orange'
+      statusColor = '#D68910'
       break;
     default:
       statusColor = 'white'

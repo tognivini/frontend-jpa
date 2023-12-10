@@ -1,11 +1,11 @@
 import styled, { css } from 'styled-components'
 
 const hugeCardStyle = css`
-  width: 850px;
+  width: 880px;
 `
 
 const simpleCardStyle = css`
-  width: 350px;
+  width: 360px;
 `
 
 export const Card = styled.button`
