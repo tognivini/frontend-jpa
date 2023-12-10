@@ -13,12 +13,11 @@ export const Card = styled.button`
     flex-direction: column;
     justify-content: space-between;
     padding: 10px 20px;
-    /* width: 350px; */
-    height:400px;
+    height: 400px;
     border: 2px solid white;
     border-radius: var(--border-radius);
     margin: 10px 10px;
-    /* background-color: #222222; */
+    background-color: #0F1010;
     ${({ hugeCard }) => hugeCard ? hugeCardStyle : simpleCardStyle}
 
 `

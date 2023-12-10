@@ -50,11 +50,18 @@
 .tbodyRow::-webkit-scrollbar-thumb {
   background-color: #303030;    
   border-radius: 20px;       
-  border: 3px solid orange; 
+  border: 3px solid rgb(245, 168, 24); 
 }
 
 .mainRowTbody {
   border: 2px solid #999;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  overflow: hidden;
+}
+
+.mainRowTbodySelected {
+  border: 2px solid rgb(245, 168, 24);
   border-radius: 5px;
   margin-bottom: 5px;
   overflow: hidden;

@@ -6,8 +6,10 @@ import Image from 'next/image'
 import styles from './page.module.css'
 import { Cards } from './components/cards/cards'
 import { Button } from './components/Button'
+import { Badge } from './components/Badge'
 import { onGetAllUsers, onGetAllPilas, onGetAllBlocks, onSendPilaTransferation  } from './services/api-services/repositories';
 import { format } from "date-fns-tz";
+import Swal from "sweetalert2";
 
 export default function Home() {
 
@@ -16,109 +18,44 @@ export default function Home() {
   const [blocos, setBlocos] = useState();
   const [transferPila, setTransferPila] = useState({});
   const [transferUser, setTransferUser] = useState({});
-
-  const obj = [
-          {
-            chaveCriador: "U3VuIFJTQSBwdWJsaWMga2V5LCA1MTIgYml0cwogIHBhcmFtczogbnVsbAogIG1vZHVsdXM6IDEwMTMwOTQwMTc4Njk1ODQ1Nzk3NzUwMjI5MTU2OTQ5ODUwNzgxMTI4MjY4MDY3ODc5MjEzODgzNTc4MzY0MDUzOTEyMjA5MTA0MDY2MjQxNjI5NTMwOTY0NzgxNDQ5MDQ5MTYxMDM1MjMxMzg3ODkyMTM0MDY3MzM4NDc2NTg5MjAxMDIxODE1NTE5NTY1NzA2ODA1NzI1NzU5CiAgcHVibGljIGV4cG9uZW50OiA2NTUzNw==",
-            dataCriacao: "2023-12-02T15:01:14.574+00:00",
-            id: 249457488,
-            nomeCriador: "vtogni",
-            nonce: "22372635860884766055455797916077963842557713896426896919196269533006083651631",
-            status: "VALIDO",
-            transacoes: [
-                  {
-                    dataTransacao: "2023-12-02T15:01:33.320+00:00",
-                    noncePila: "22372635860884766055455797916077963842557713896426896919196269533006083651631"
-                  }
-              ]
-          },
-          {
-            chaveCriador: "U3VuIFJTQSBwdWJsaWMga2V5LCA1MTIgYml0cwogIHBhcmFtczogbnVsbAogIG1vZHVsdXM6IDEwMTMwOTQwMTc4Njk1ODQ1Nzk3NzUwMjI5MTU2OTQ5ODUwNzgxMTI4MjY4MDY3ODc5MjEzODgzNTc4MzY0MDUzOTEyMjA5MTA0MDY2MjQxNjI5NTMwOTY0NzgxNDQ5MDQ5MTYxMDM1MjMxMzg3ODkyMTM0MDY3MzM4NDc2NTg5MjAxMDIxODE1NTE5NTY1NzA2ODA1NzI1NzU5CiAgcHVibGljIGV4cG9uZW50OiA2NTUzNw==",
-            dataCriacao: "2023-12-02T15:01:56.561+00:00",
-            id: 249457490,
-            nomeCriador: "vtogni",
-            nonce: "23242449543561633558683402639785202824645805439326219705512497018216914288862",
-            status: "VALIDO",
-            transacoes: [
-                  {
-                    dataTransacao: "2023-12-02T15:02:33.323+00:00",
-                    noncePila: "23242449543561633558683402639785202824645805439326219705512497018216914288862"
-                  }
-              ]
-          },
-          {
-            chaveCriador: "U3VuIFJTQSBwdWJsaWMga2V5LCA1MTIgYml0cwogIHBhcmFtczogbnVsbAogIG1vZHVsdXM6IDEwMTMwOTQwMTc4Njk1ODQ1Nzk3NzUwMjI5MTU2OTQ5ODUwNzgxMTI4MjY4MDY3ODc5MjEzODgzNTc4MzY0MDUzOTEyMjA5MTA0MDY2MjQxNjI5NTMwOTY0NzgxNDQ5MDQ5MTYxMDM1MjMxMzg3ODkyMTM0MDY3MzM4NDc2NTg5MjAxMDIxODE1NTE5NTY1NzA2ODA1NzI1NzU5CiAgcHVibGljIGV4cG9uZW50OiA2NTUzNw==",
-            dataCriacao: "2023-12-02T15:02:00.584+00:00",
-            id: 249457491,
-            nomeCriador: "vtogni",
-            nonce: "22066203781391939160524697511147527096761217903794768743683582439393866130464",
-            status: "BLOCO_EM_VALIDACAO",
-            transacoes: [
-                  {
-                    dataTransacao: "2023-12-02T15:02:33.323+00:00",
-                    noncePila: "22066203781391939160524697511147527096761217903794768743683582439393866130464"
-                  } 
-            ]
-          },
-          {
-            chaveCriador: "U3VuIFJTQSBwdWJsaWMga2V5LCA1MTIgYml0cwogIHBhcmFtczogbnVsbAogIG1vZHVsdXM6IDEwMTMwOTQwMTc4Njk1ODQ1Nzk3NzUwMjI5MTU2OTQ5ODUwNzgxMTI4MjY4MDY3ODc5MjEzODgzNTc4MzY0MDUzOTEyMjA5MTA0MDY2MjQxNjI5NTMwOTY0NzgxNDQ5MDQ5MTYxMDM1MjMxMzg3ODkyMTM0MDY3MzM4NDc2NTg5MjAxMDIxODE1NTE5NTY1NzA2ODA1NzI1NzU5CiAgcHVibGljIGV4cG9uZW50OiA2NTUzNw==",
-            dataCriacao: "2023-12-02T15:02:00.584+00:00",
-            id: 249457491,
-            nomeCriador: "vtogni",
-            nonce: "22066203781391939160524697511147527096761217903794768743683582439393866130464",
-            status: "BLOCO_EM_VALIDACAO",
-            transacoes: [
-                  {
-                    dataTransacao: "2023-12-02T15:02:33.323+00:00",
-                    noncePila: "22066203781391939160524697511147527096761217903794768743683582439393866130464"
-                  } 
-            ]
-          },
-          {
-            chaveCriador: "U3VuIFJTQSBwdWJsaWMga2V5LCA1MTIgYml0cwogIHBhcmFtczogbnVsbAogIG1vZHVsdXM6IDEwMTMwOTQwMTc4Njk1ODQ1Nzk3NzUwMjI5MTU2OTQ5ODUwNzgxMTI4MjY4MDY3ODc5MjEzODgzNTc4MzY0MDUzOTEyMjA5MTA0MDY2MjQxNjI5NTMwOTY0NzgxNDQ5MDQ5MTYxMDM1MjMxMzg3ODkyMTM0MDY3MzM4NDc2NTg5MjAxMDIxODE1NTE5NTY1NzA2ODA1NzI1NzU5CiAgcHVibGljIGV4cG9uZW50OiA2NTUzNw==",
-            dataCriacao: "2023-12-02T15:02:00.584+00:00",
-            id: 249457491,
-            nomeCriador: "vtogni",
-            nonce: "22066203781391939160524697511147527096761217903794768743683582439393866130464",
-            status: "BLOCO_EM_VALIDACAO",
-            transacoes: [
-                  {
-                    dataTransacao: "2023-12-02T15:02:33.323+00:00",
-                    noncePila: "22066203781391939160524697511147527096761217903794768743683582439393866130464"
-                  } 
-            ]
-          }
-    ]
   
   useEffect(() => {
-    onGetPilas().then(
-      () => {
-        onGetBlocks();
-        onGetUsers();
-      } 
-    );
+    onGetPilas()
   }, []);
 
-  const onGetUsers = useCallback(async () => {
-    await onGetAllUsers().then((res) => {
-      console.log(res)
-      setUsers(res?.result);
+  const onGetUsers = useEffect(()=> {
+    onGetAllUsers().then((res) => {
+      if(res?.result?.length > 0){
+        setUsers(res?.result);
+        console.log(res, 'user')
+      }
     });
-  }, []);
+  }, [pilas])  
 
   const onGetPilas = useCallback(async () => {
     await onGetAllPilas().then((res) => {
-      console.log(res, 'pilas')
-      setPilas(obj)
-      // setPilas(res?.result);/
+      if(res?.result?.length > 0){
+        console.log(res, 'pilas')
+        // const wave = []
+        // res?.result.forEach((r, index)=> {
+        //   if(index < 10){
+        //     wave.push(r)
+        //   }
+        // })
+        // setPilas(wave)
+        setPilas(res?.result)
+      }
     });
   }, []);
 
-  const onGetBlocks = useCallback(async () => {
-    await onGetAllBlocks().then((res) => {
-      setBlocos(res?.result);
+  const onGetBlocks = useEffect(() => {
+    onGetAllBlocks().then((res) => {
+      if(res?.result?.length > 0){
+        console.log('bloco', res)
+        setBlocos(res?.result);
+      }
     });
-  }, []);
+  }, [pilas]);
 
 
   const sendPilaTransferation = useCallback(async () => {
@@ -132,14 +69,29 @@ export default function Home() {
           noncePila: transferPila.noncePila
         }
         await onSendPilaTransferation(body).then(async(res) => {
-          // setBlocos();
-          console.log(res)
-          if(res?.status === '200'){
-            await onGetPilas()
+          if(res?.status === 200){
+
+            Swal.fire({
+              title: "Sucesso!",
+              text: "Transferencia realizada com sucesso!",
+              icon: "success",
+              confirmButtonText: "Ok",
+            }).then(() => {
+              onGetPilas()();
+            });
+          } else {
+            Swal.fire({
+              title: "Erro!",
+              text: "Ocorreu um problema transferir o pila!",
+              icon: "error",
+              confirmButtonText: "Ok",
+            });
           }
+          setTransferUser({})
+          setTransferPila({})
         });
       }
-  }, [transferPila, transferUser]);
+  }, [onGetPilas, transferPila.noncePila, transferUser.chaveUsuarioDestino, transferUser.nomeUsuarioDestino]);
 
 
   return (
@@ -167,18 +119,6 @@ export default function Home() {
                         const dd = new Date(dataCriacao);
                         const formattedTime = format(dd, "yyyy-MM-dd");
                         return(
-                       
-                        // chaveCriador
-                        // dataCriacao
-                        // id
-                        // nomeCriador
-                        // nomeCriador
-                        // status
-                        // transacoes
-                        //{
-                        // dataTransacao
-                        // noncePila
-                        //} 
                         <div key={key} className={styles.mainRowTbody}>
                             <tr>
                               <td>
@@ -223,9 +163,9 @@ export default function Home() {
                                 </div>
                               </td>
                               <td>
-                                <div className={styles.textTableClip}>
+                                <Badge statusBadge={status}>
                                   {status}
-                                </div>
+                                </Badge>
                               </td>
                             </tr>
                             <tr>
@@ -401,89 +341,96 @@ export default function Home() {
                           pilas?.map(({ id, chaveCriador, dataCriacao, nonce, nomeCriador, status, transacoes }, key) =>  {
                             const dd = new Date(dataCriacao);
                             const formattedTime = format(dd, "yyyy-MM-dd");
-                            return(
-                            <div key={key} className={styles.mainRowTbody}>
-                                <tr>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      Número bloco: 
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className={styles.textTableClip}>
-                                      {nonce}
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      Usuário Minerador: 
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      {nomeCriador}
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      Data Criação: 
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      {formattedTime}
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      Status: 
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className={styles.textTableClip}>
-                                      {status}
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      Transações:
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className={styles.textTable}>
-                                      {transacoes?.length}
-                                    </div>
-                                  </td>
-                                </tr>
-                                <tr>
-                                  <td></td>
-                                  <td>
-                                    <Button
-                                      type="submit"
-                                      fullWidth
-                                      color="blueGreenLight"
-                                      // smallBotton
-                                      onClick={() => 
-                                        setTransferPila({ noncePila: nonce })
-                                      }
-                                      style={{ height: 30, fontSize: 15, with: 10 }}
-                                      >
-                                      Selecionar
-                                    </Button>
-                                  </td>
-                                </tr>
-                              </div>
-                            )
-                        }
-                          )
+                            const styleCard = transferPila?.noncePila === nonce ? styles.mainRowTbodySelected : styles.mainRowTbody
+                            if(status === 'VALIDO'){
+                              
+                              return(
+                                <div key={key} className={styleCard}>
+                                  <tr>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        Número bloco: 
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className={styles.textTableClip}>
+                                        {nonce}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        Usuário Minerador: 
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        {nomeCriador}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        Data Criação: 
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        {formattedTime}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        Status: 
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <Badge statusBadge={status}>
+                                        {status}
+                                      </Badge>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        Transações:
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className={styles.textTable}>
+                                        {transacoes?.length}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td></td>
+                                    <td>
+                                      <Button
+                                        type="submit"
+                                        fullWidth
+                                        color="blueGreenLight"
+                                        onClick={() => {
+                                          if(transferPila?.noncePila === nonce){
+                                            setTransferPila({})
+                                          } else {
+                                            setTransferPila({ noncePila: nonce })
+                                          }
+                                        }}
+                                        style={{ height: 30, fontSize: 15, width: 120, border: '1px solid grey' }}
+                                        >
+                                        Selecionar
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                </div>
+                              )
+                            }
+
+                          })
                         ) : (
                           <></>
                         )}
@@ -506,34 +453,40 @@ export default function Home() {
                     <tbody>
                       <div className={styles.tbodyRow}>
                         {users ? (
-                          users?.map(({ id, nome, chavePublica }, key) => (
-                            <div key={key} className={styles.mainRowTbody}>
-                              <tr>
-                                <td>
-                                  <div className={styles.textTableClip}>
-                                    {nome}
-                                  </div>
-                                </td>
-                                <td>
-                                  <Button
-                                    type="submit"
-                                    fullWidth
-                                    color="blueGreenLight"
-                                    // smallBotton
-                                    onClick={() => 
-                                        // "chaveUsuarioDestino": "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAI0l7M3k3QqtOlCor9KXDUD3gVeJ/YcDKz/ZPWVhOfwMiAIoBm5IbE8c23e57hQCIICD3buorOt4BVW1cjJi7scCAwEAAQ==",
-                                        // "nomeUsuarioDestino": "londero.edu",
-                                        // "noncePila": "26841470753142012877700218879437041114278892302970700364891993926177214098711"
-                                      setTransferUser({ chaveUsuarioDestino: chavePublica, nomeUsuarioDestino: nome })
-                                    }
-                                    style={{ height: 25, fontSize: 15, with: 10 }}
-                                    >
-                                      Selecionar
-                                  </Button>
-                                </td>
-                              </tr>
-                            </div>
-                          ))
+                          users?.map(({ id, nome, chavePublica }, key) => {
+
+                            const styleCard = transferUser?.chaveUsuarioDestino === chavePublica ? styles.mainRowTbodySelected : styles.mainRowTbody
+                            if(nome !== 'vtogni' && nome !== 'viniciustogni'){
+                              return(
+                                <div key={key} className={styleCard}>
+                                  <tr>
+                                    <td>
+                                      <div className={styles.textTableClip}>
+                                        {nome}
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <Button
+                                        type="submit"
+                                        fullWidth
+                                        color="blueGreenLight"
+                                        onClick={() => {
+                                          if(transferUser?.chaveUsuarioDestino === chavePublica){
+                                            setTransferUser({})
+                                          } else {
+                                            setTransferUser({ chaveUsuarioDestino: chavePublica, nomeUsuarioDestino: nome })
+                                          }
+                                        }}
+                                        style={{ height: 30, fontSize: 12, width: 'auto', border: '1px solid grey' }}
+                                        >
+                                          Selecionar
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                </div>
+                              )
+                            }
+                          })
                         ) : (
                           <></>
                         )}
@@ -561,7 +514,8 @@ export default function Home() {
                         onClick={() => {
                          sendPilaTransferation()
                         }}
-                        style={{ height: 35, fontSize: 15, with: 40 }}
+                        disabled={ !(transferPila?.noncePila && transferUser?.chaveUsuarioDestino && transferUser?.nomeUsuarioDestino) }
+                        style={{ height: 35, fontSize: 15, with: 30, border: '1px solid grey' }}
                         >
                           Transferir
                     </Button>
@@ -571,39 +525,7 @@ export default function Home() {
             </div>
           </Cards>
         </div>
-
-        
-        
-
-        <div>
- 
-
-        </div>
-
-        {/* <div>
-          <Button
-            disabled={false}
-            type="submit"
-            fullWidth
-            color="blueGreenLight"
-            style={{ height: 40, fontSize: 20 }}
-          >
-            Registrar-se
-          </Button>
-        </div> */}
       </div>
     </main>
   )
 }
-
-
-
-{/*    
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            /> */}

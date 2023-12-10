@@ -12,8 +12,8 @@ async function onSendPilaTransferation(body: ITransferBody) {
   return new Promise((resolve, reject) => {
     api
       .post(routes.TRANSFER_PILA, body)
-      .then(({ data }) => {
-        resolve(data);
+      .then((res) => {
+        resolve(res);
       })
       .catch(reject);
   });
